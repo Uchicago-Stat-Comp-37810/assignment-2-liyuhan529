@@ -1,0 +1,56 @@
+---
+title: "Report on the accuracy of metropolis-hasting algorithm"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+When finding the value of a in linear model using metropolis-hasting algorithm, different number of iterations would lead to different accuracy on the result. Here, we define a function called "compare outcomes" to evaluate the difference.
+
+# Original settings
+We assume a linear relationship between $x$ and $y$, with noises having a normal distribution. Thus, the test data could be created as follow.
+```{r}
+trueA <- 5
+trueB <- 0
+trueSd <- 10
+sampleSize <- 31
+x <- (-(sampleSize - 1) / 2): ((sampleSize - 1) / 2)
+y <-  trueA * x + trueB + rnorm(n = sampleSize, mean = 0, sd = trueSd)
+```
+
+
+# Define the function
+First, we show the codes for the function. By using this function, we could get the mean and standard deviation of a in the chain.
+```{r}
+source("/Users/liyuhan/Documents/GitHub/assignment-2-liyuhan529/Functions.R")
+compare_outcomes=function(iteration){
+  result_a=matrix(rep(0,20),ncol=2)
+  #create the matrix that would save the result later
+  
+  for(i in 1:10){
+    startvalue=c()
+    startvalue[1]=runif(1,0,10)
+    startvalue[2]=rnorm(1,0,5)
+    startvalue[3]=runif(1,0,30)
+    #determine the randomly selected start value for each loop, and save them into a vector
+    
+    chain=run_metropolis_MCMC(startvalue,iteration)
+    #run the MCMC alagorithm defined previously, and save the result of each iteration in "chain"
+    
+    result_a[i, ] <- c(mean(chain[,1]), sd(chain[,1]))
+    #save the mean value and sd of a in the result matrix
+  }
+  print(result_a)
+}
+```
+
+# Using the function to analyse accuracy
+```{r}
+compare_outcomes(1000)
+compare_outcomes(10000)
+compare_outcomes(100000)
+```
+
+The three above matrices shows the mean and standard deviation of $a$ when conducting 1000,10000 and 100000 iterations. The first column refers to the mean of $a$, and the second column refers to the standard deviation. The ten rows in each matrix shows the result of each loop under different number of iterations.
+
+The result matrix shows that as the times of iteration gets larger, the standard deviation of $a$ gets lower significantly, showing that the value of $a$ is becoming more stable. Additionally, the value of $a$ tends to get closer to its true value ($a=5$ in this case), when iterating for more times. In summary, the accuracy of the algorithm would increase significantly when the number of iteration gets larger.
