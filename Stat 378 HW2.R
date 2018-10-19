@@ -1,3 +1,5 @@
+source("/Users/liyuhan/Documents/GitHub/assignment-2-liyuhan529/Functions.R")
+
 # Creating test data
 trueA <- 5
 trueB <- 0
