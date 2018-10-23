@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[1]:
+# In[2]:
 
 
 cars = 100
@@ -59,7 +59,7 @@ print("We need to put about", average_passengers_per_car,
 # 
 
 # 
-# #1. The change seems to be unnecessary in this case, since the output didn't change. But it may be necessary in other cases.
+# #1. The change seems to be unnecessary in this case, since the output didn't change. But it may be necessary in other cases. However, we need to notice that when using 4, the output is 30*4=120, while using 4.0, the output is 30*4.0=120.0. It tends to be more accurate when changing to 4.0, and it would be necessary if we want to keep the accuracy to 1 decimal place.
 # #3. See the comments above.
 # #6. done
 # 
